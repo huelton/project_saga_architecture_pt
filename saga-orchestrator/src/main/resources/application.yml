@@ -1,0 +1,3 @@
+# SAGA Orchestrator - config placeholder
+server:
+  port: 8083
