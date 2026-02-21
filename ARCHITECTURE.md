@@ -436,3 +436,4 @@ MongoDB permanece como repositório de **auditoria e eventos de negócio**; a fe
 - Grafana: Métricas em tempo real
 - Kibana: Análise de logs
 - Jaeger UI: Tracing de requisições
+
