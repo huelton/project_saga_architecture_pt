@@ -1,0 +1,67 @@
+# --- Java / Maven ---
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.log
+pom.xml.tag
+pom.xml.releaseBackup
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# --- IDEs ---
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+*.swp
+*.swo
+*~
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+.env.local
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Logs e temporários ---
+*.log
+*.tmp
+*.temp
+*.bak
+*.cache
+
+# --- Docker (opcional) ---
+.env
+.env.*
+!.env.example
+
+# --- Test / coverage ---
+*.gcov
+*.lcov
+.coverage
+htmlcov/
+.hypothesis/
+.pytest_cache/
+
+# --- Commit strategy (local state only) ---
+.strategy_state.json
