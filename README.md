@@ -22,19 +22,22 @@ Implementar um sistema robusto que garanta consistência eventual e compensaçã
 - **[SAGA_DIAGRAM.md](./SAGA_DIAGRAM.md)**: Diagramas detalhados do fluxo SAGA
 - **[ARCHITECTURE.md](./ARCHITECTURE.md)**: Arquitetura técnica detalhada
 - **[REQUIREMENTS.md](./REQUIREMENTS.md)**: Requisitos funcionais e não funcionais
+- **[OBSERVABILITY.md](./OBSERVABILITY.md)**: Prometheus, Loki e Grafana — acesso, configuração e exemplos
+- **[docs/JMETER.md](./docs/JMETER.md)**: Instalação do JMeter e cenários de teste de carga
 - **[diagrams/](./diagrams/)**: Diagramas Mermaid interativos
 
 ## 🏗️ Arquitetura
 
 ### Componentes Principais
 
-1. **SAGA Orchestrator**: Orquestra todas as etapas da transferência
-2. **Account Service**: Gerencia contas bancárias e operações
-3. **Validation Service**: Validações de compliance e limites
-4. **Currency Service**: Conversão de moedas
-5. **Transaction Service**: Executa transações financeiras
-6. **Notification Service**: Envia notificações
-7. **Audit Service**: Registra auditoria
+1. **shared/** — Módulos compartilhados ([saga-common](./shared), kafka-common, circuit-breaker) — DTOs e configuração Kafka/Resilience4j
+2. **SAGA Orchestrator**: Orquestra todas as etapas da transferência
+3. **Account Service**: Gerencia contas bancárias e operações
+4. **Validation Service**: Validações de compliance e limites
+5. **Currency Service**: Conversão de moedas
+6. **Transaction Service**: Executa transações financeiras
+7. **Notification Service**: Envia notificações
+8. **Audit Service**: Registra auditoria
 
 ### Fluxo de Transferência
 
@@ -143,6 +146,34 @@ Subir com: `docker-compose up -d`.
 | [transaction-service](./transaction-service) | 8087 | Registro de transações, repasse para account (PostgreSQL) |
 | [notification-service](./notification-service) | 8088 | Notificações (simulado) |
 | [audit-service](./audit-service) | 8089 | Auditoria (MongoDB) |
+| **Observabilidade** | | |
+| Prometheus | 9090 | Métricas |
+| Loki | 3100 | Logs operacionais |
+| Grafana | 3000 | Dashboards (admin/admin) |
+
+## 🔨 Build com Maven
+
+O projeto tem **POM raiz** na pasta principal e cada microsserviço é um módulo Maven.
+
+**Build de todos os serviços (na raiz do repositório):**
+```bash
+# Com Maven instalado
+mvn clean install
+
+# Com Maven Wrapper (Windows)
+mvnw.cmd clean install
+
+# Com Maven Wrapper (Linux/macOS)
+./mvnw clean install
+```
+
+**Build ou execução de um único serviço:**
+```bash
+cd saga-orchestrator
+mvn spring-boot:run
+```
+
+Para gerar o JAR do Maven Wrapper (se ainda não tiver Maven instalado), execute uma vez na raiz: `mvn -N wrapper:wrapper`.
 
 ## 🚀 Próximos Passos
 
