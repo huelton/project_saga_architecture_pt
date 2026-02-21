@@ -161,3 +161,4 @@ volumes:
   mongo_data:
   loki_data:
   grafana_data:
+
