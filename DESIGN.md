@@ -239,3 +239,4 @@ Os serviços devem enviar logs estruturados (JSON) para a ferramenta escolhida; 
 - Regulamentações bancárias
 - Retenção de logs por período legal
 - Relatórios de auditoria
+

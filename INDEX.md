@@ -145,3 +145,4 @@ Proteção contra falhas em cascata, com estados: CLOSED, OPEN, HALF-OPEN.
 - Diagramas Mermaid podem ser visualizados em editores como VS Code (com extensão Mermaid)
 - Todos os diagramas também estão em formato texto no SAGA_DIAGRAM.md
 - A documentação pode ser expandida conforme necessário durante a implementação
+

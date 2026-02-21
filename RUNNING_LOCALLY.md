@@ -182,3 +182,4 @@ Aguarde ~15 segundos e inicie as aplicações (saga-orchestrator, account-servic
 | A infra sobe local hoje? | **Sim** — `docker-compose up -d`. |
 | O fluxo SAGA completo já pode ser validado hoje? | **Sim** — os microsserviços foram implementados (saga-orchestrator, account-service, validation-service, currency-service, transaction-service, notification-service, audit-service). |
 | Como validar local? | Subir a infra, depois cada serviço (ver ordem acima) e usar `POST /api/transfers` e `GET /api/transfers/{sagaId}`. |
+
