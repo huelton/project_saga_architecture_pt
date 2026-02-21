@@ -189,3 +189,4 @@ Para gerar o JAR do Maven Wrapper (se ainda não tiver Maven instalado), execute
 ## 📝 Licença
 
 Este é um projeto educacional/demonstrativo.
+
