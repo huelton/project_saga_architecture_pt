@@ -1,0 +1,15 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: currency-service
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  kafka:
+    bootstrap-servers: localhost:29092
+    consumer:
+      group-id: currency-service-group
+      auto-offset-reset: earliest
