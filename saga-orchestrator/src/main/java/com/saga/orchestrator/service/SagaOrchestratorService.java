@@ -1,6 +1,7 @@
 package com.saga.orchestrator.service;
 
 import com.saga.common.dto.SagaEvent;
+import com.saga.orchestrator.constants.SagaConstants;
 import com.saga.orchestrator.entity.SagaInstance;
 import com.saga.orchestrator.kafka.SagaKafkaProducer;
 import com.saga.orchestrator.repository.SagaInstanceRepository;
@@ -25,9 +26,9 @@ public class SagaOrchestratorService {
                                       String amount, String currency) {
         SagaInstance instance = new SagaInstance();
         instance.setTransferId(transferId);
-        instance.setCurrentState("VALIDATING_ORIGIN");
+        instance.setCurrentState(SagaConstants.STATE_VALIDATING_ORIGIN);
         repository.save(instance);
-        SagaEvent event = new SagaEvent(transferId, "VALIDATING_ORIGIN", null);
+        SagaEvent event = new SagaEvent(transferId, SagaConstants.STATE_VALIDATING_ORIGIN, null);
         event.setOriginAccountId(originAccountId);
         event.setDestinationAccountId(destinationAccountId);
         event.setAmount(amount);
@@ -39,7 +40,7 @@ public class SagaOrchestratorService {
     public void handleAccountValidated(SagaEvent event) {
         Optional<SagaInstance> opt = repository.findByTransferId(event.getTransferId());
         opt.ifPresent(inst -> {
-            inst.setCurrentState("VALIDATING_COMPLIANCE");
+            inst.setCurrentState(SagaConstants.STATE_VALIDATING_COMPLIANCE);
             repository.save(inst);
             kafkaProducer.sendToComplianceValidate(event.getTransferId(), event);
         });
@@ -48,7 +49,7 @@ public class SagaOrchestratorService {
     public void handleComplianceApproved(SagaEvent event) {
         Optional<SagaInstance> opt = repository.findByTransferId(event.getTransferId());
         opt.ifPresent(inst -> {
-            inst.setCurrentState("CONVERTING_CURRENCY");
+            inst.setCurrentState(SagaConstants.STATE_CONVERTING_CURRENCY);
             repository.save(inst);
             kafkaProducer.sendToCurrencyConvert(event.getTransferId(), event);
         });
@@ -57,7 +58,7 @@ public class SagaOrchestratorService {
     public void handleCurrencyConverted(SagaEvent event) {
         Optional<SagaInstance> opt = repository.findByTransferId(event.getTransferId());
         opt.ifPresent(inst -> {
-            inst.setCurrentState("DEBITING");
+            inst.setCurrentState(SagaConstants.STATE_DEBITING);
             repository.save(inst);
             kafkaProducer.sendToTransactionDebit(event.getTransferId(), event);
         });
@@ -66,7 +67,7 @@ public class SagaOrchestratorService {
     public void handleTransactionDebited(SagaEvent event) {
         Optional<SagaInstance> opt = repository.findByTransferId(event.getTransferId());
         opt.ifPresent(inst -> {
-            inst.setCurrentState("CREDITING");
+            inst.setCurrentState(SagaConstants.STATE_CREDITING);
             repository.save(inst);
             kafkaProducer.sendToTransactionCredit(event.getTransferId(), event);
         });
@@ -75,14 +76,14 @@ public class SagaOrchestratorService {
     public void handleTransactionCredited(SagaEvent event) {
         Optional<SagaInstance> opt = repository.findByTransferId(event.getTransferId());
         opt.ifPresent(inst -> {
-            inst.setCurrentState("COMPLETED");
+            inst.setCurrentState(SagaConstants.STATE_COMPLETED);
             repository.save(inst);
         });
     }
 
     public void handleFailureOrCompensation(SagaEvent event) {
         repository.findByTransferId(event.getTransferId()).ifPresent(inst -> {
-            inst.setCurrentState("FAILED");
+            inst.setCurrentState(SagaConstants.STATE_FAILED);
             repository.save(inst);
         });
     }
